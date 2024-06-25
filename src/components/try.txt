@@ -1,0 +1,46 @@
+<List>
+          {['Notes', 'Reminders', 'Edit labels', 'Archive', 'Bin'].map((text, index) => {
+            let IconComponent;
+            switch(index) {
+              case 1:
+                IconComponent = <LightbulbOutlinedIcon />;
+                break;
+              case 2:
+                IconComponent = <LightbulbOutlinedIcon />;
+                break;
+              case 3:
+                IconComponent = <LightbulbOutlinedIcon />;
+                break;
+              case 4:
+                IconComponent = <LightbulbOutlinedIcon />;
+                break;
+              case 5:
+                IconComponent = <LightbulbOutlinedIcon />;
+                break;
+              default:
+                IconComponent = <InboxIcon />;
+            }
+            return (
+              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {IconComponent}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
