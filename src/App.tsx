@@ -10,7 +10,10 @@ import { fetchNotes, addNote, deleteNote, editNote } from './api';
 
 function App() {
   const [notes, setNotes] = useState<NoteObject[]>([]);
-
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   useEffect(() => {
     const loadNotes = async () => {
       const fetchedNotes = await fetchNotes();
@@ -20,6 +23,8 @@ function App() {
 
     loadNotes();
   }, []);
+
+  
 
   const handleAddNote = async (newNote: NoteObject)=> {
     const addedNote = await addNote(newNote);
@@ -50,7 +55,7 @@ function App() {
     <div className="App">
       <MiniDrawer />
       <br /><br /><br /><br /><br />
-      <TextFields onAdd={handleAddNote} />
+      <TextFields onAdd={handleAddNote} open={open} />
       <NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} />
     </div>
   );
