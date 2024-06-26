@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, InputBase, Button, Typography, CardActions, ClickAwayListener } from '@mui/material';
+import { Box, Card, CardContent, InputBase, Button, Typography, CardActions, ClickAwayListener, CardHeader,IconButton } from '@mui/material';
+import { MoreVert } from '@mui/icons-material';
 import { NoteObject } from '../models/note';
 import { v4 as uuid } from 'uuid';
 
@@ -70,20 +71,27 @@ export default function Create({ onAdd }: CreateProps) {
                     id="note-card"
                     onClick={() => { setExpanded(true); console.log('opened'); }}
                 >
+                    <CardHeader
+                      title={<Typography variant='h5'>
+                        <InputBase
+                            name="title"
+                            id='title'
+                            value={note.title}
+                            onChange={handleChange}
+                            required
+                            fullWidth
+                            placeholder={expanded? "Title":"Jot Down"}
+                            inputProps={{ 'aria-label': 'title' }}
+                            sx={{maxHeight:5}}
+                        />
+                    </Typography>}
+                      action={<IconButton aria-label="settings">
+                                <MoreVert />
+                              </IconButton>
+                              }
+                    />
                     <CardContent>
-                        <Typography variant='h5'>
-                            <InputBase
-                                name="title"
-                                id='title'
-                                value={note.title}
-                                onChange={handleChange}
-                                required
-                                fullWidth
-                                placeholder={expanded? "Title":"Jot Down"}
-                                inputProps={{ 'aria-label': 'title' }}
-                                sx={{maxHeight:5}}
-                            />
-                        </Typography>
+                        
                         {expanded && (
                             <Typography variant='h5'>
                                 <InputBase
