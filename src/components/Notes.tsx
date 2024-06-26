@@ -30,10 +30,10 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
   const Highlight = require('react-highlighter');
   return (
     <>
-      <Card sx={{ minWidth: 250, maxWidth: 300, marginBottom: 10 ,boxShadow:3}}style={{backgroundColor:note.color}}>
+      <Card sx={{ minWidth: 250, maxWidth: 300, marginBottom: 4 ,boxShadow:6}}style={{backgroundColor:note.color}}>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent>
-            <Typography variant="h6" component="div" gutterBottom>
+            <Typography component="div" gutterBottom sx={{fontWeight:'bold',fontSize:20}}>
               <Highlight
                 search={searchTerm}>
               {note.title}
@@ -42,7 +42,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
             <Typography variant="body2" color="textSecondary">
             <Highlight
                 search={searchTerm}>
-              {note.content.slice(0, 100)}
+              {note.content.slice(0,300)}
               </Highlight>
               {/* what about content beyond 100 words? */}
             </Typography>
@@ -62,7 +62,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
           </CardActions>
         </CardActionArea>
       </Card>
-      <FormDialog open={open} handleClose={handleClose} selectedNote={note} editNote={editNote} />
+      <FormDialog open={open} handleClose={handleClose} selectedNote={note} editNote={editNote} pinnedState={false} />
     </>
   );
 };

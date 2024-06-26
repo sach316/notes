@@ -12,16 +12,25 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm);
   const [drawerState, setDrawerState] = useState(false);
+  const [pinned,setPinned]=useState(false);
 
   useEffect(() => {
     const loadNotes = async () => {
       const fetchedNotes = await fetchNotes();
       console.log(fetchedNotes);
       setNotes(fetchedNotes);
+      for (const note of fetchedNotes){
+        if (note.pinned){
+          setPinned(true)
+          break
+        }
+      }
     };
 
     loadNotes();
   }, []);
+
+  
 
   useEffect(() => {
     const search = async () => {
@@ -63,7 +72,7 @@ function App() {
     <div className="App">
       <MiniDrawer onSearch={setSearchTerm} drawerState={drawerState} setDrawerOpened={setDrawerState} />
       <Create onAdd={handleAddNote} />
-      <NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} />
+      <NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} pinned={pinned}/>
     </div>
   );
 }

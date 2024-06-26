@@ -164,9 +164,9 @@ export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotes
   
   return (
     
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex',backgroundColor:'' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor:'white'}}>
       
         <Toolbar>
           <IconButton
@@ -174,18 +174,18 @@ export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotes
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{
+            sx={{color:'grey',
               marginRight: 5,
               ...(open && { display: 'none' }),
             }}
           >
             <MenuIcon />
           </IconButton>
-          <DescriptionTwoTone/>
-          <Typography variant="h6" noWrap component="div">
+          <DescriptionTwoTone sx={{color:'green'}}/>
+          <Typography variant="h6" noWrap component="div" sx={{color:'GrayText'}}>
             JotSpot
           </Typography>
-          <Search>
+          <Search sx={{color:'black',border:0.1}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

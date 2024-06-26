@@ -9,26 +9,46 @@ interface INotesProps {
     editNote: (id: string, editedNote: NoteObject) => void;
     searchTerm: string;
     drawerOpened: boolean
+    pinned:boolean
     
 }
 
-export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,drawerOpened }: INotesProps) {
+export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,drawerOpened,pinned }: INotesProps) {
     const margin= drawerOpened?30:7
     // console.log(drawerOpened,margin+'drawer')
     return (
         <Box sx={{marginTop:3}}>
+            {pinned&&(<>
+                <Typography variant="h5" sx={{marginBottom:3}}>Pinned</Typography>
 
+                <Box
+                    display="flex"
+                    flexWrap="wrap"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    gap={1.5} 
+                    paddingLeft={4}
+                    marginLeft={margin} 
+                    marginRight={1.5}
+                >
+                    {notes.map((note) => (
+                        <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
+                    ))}
+                </Box>
+                </>
+            )}
             <Typography variant="h5" sx={{marginBottom:3}}>Notes</Typography>
 
             <Box
-                display="flex"
-                flexWrap="wrap"
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                gap={2} 
-                paddingLeft={4}
-                marginLeft={margin} 
-            >
+                    display="flex"
+                    flexWrap="wrap"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    gap={1.5} 
+                    paddingLeft={4}
+                    marginLeft={margin} 
+                    marginRight={1.5}
+                >
                 {notes.map((note) => (
                     <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
                 ))}
