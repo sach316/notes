@@ -9,6 +9,7 @@ import { NoteObject } from '../models/note';
 import { CardActionArea } from '@mui/material';
 import FormDialog from './Dialog';
 
+
 interface INoteProps {
   note: NoteObject;
   deleteNote: (id: string) => void;
@@ -26,23 +27,23 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const highlightSearchTerm = (text: string, term: string) => {
-    if (!term) return text;
-    const regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
-    return text.replace(regex, match => `<span style="background-color: yellow">${match}</span>`);
-  };
-  // console.log(note.color)
-
+  const Highlight = require('react-highlighter');
   return (
     <>
       <Card sx={{ minWidth: 250, maxWidth: 300, marginBottom: 10 ,boxShadow:3}}style={{backgroundColor:note.color}}>
         <CardActionArea onClick={handleClickOpen}>
           <CardContent>
             <Typography variant="h6" component="div" gutterBottom>
-              <div dangerouslySetInnerHTML={{ __html: highlightSearchTerm(note.title, searchTerm || '') }} />
+              <Highlight
+                search={searchTerm}>
+              {note.title}
+              </Highlight>
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              <div dangerouslySetInnerHTML={{ __html: highlightSearchTerm(note.content.slice(0, 100), searchTerm || '') }} /> 
+            <Highlight
+                search={searchTerm}>
+              {note.content.slice(0, 100)}
+              </Highlight>
               {/* what about content beyond 100 words? */}
             </Typography>
           </CardContent>
