@@ -56,16 +56,7 @@ export default function Create({ onAdd }: CreateProps) {
         setPinned(false)
     };
 
-    const handleClickAway = (e: MouseEvent | TouchEvent) => {
-      if (expanded) {
-          const cardElement = document.getElementById('note-card');
-          if (cardElement && !cardElement.contains(e.target as Node)) {
-              e.preventDefault();
-            //   console.log('Click DETECTED');
-              handleSubmit(); 
-          }
-      }
-  };
+
 
     const handlePinned = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -83,7 +74,7 @@ export default function Create({ onAdd }: CreateProps) {
     // console.log('pinned '+pinned)
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:12 }}>
-            <ClickAwayListener onClickAway={(e) => handleClickAway(e)}>
+            <ClickAwayListener onClickAway={(handleSubmit)}>
                 <Card
                     sx={{ minWidth: 600, maxWidth: 700,boxShadow:5 }}
                     id="note-card"
