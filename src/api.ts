@@ -84,3 +84,25 @@ export const editNote = async (id: string, editedNote: NoteObject): Promise<Note
     throw error;
   }
 };
+
+export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
+  try {
+    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/search/${keyword}`,{
+      headers: {
+          'ngrok-skip-browser-warning': 'true',}
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Invalid response format: not JSON');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch notes:', error);
+    throw error;
+  }
+};

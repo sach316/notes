@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -16,8 +17,55 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { EditOutlined,ArchiveOutlined,DeleteOutlined,LightbulbOutlined,NotificationsNoneOutlined,DescriptionTwoTone} from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone } from '@mui/icons-material';
+import { InputBase, alpha } from '@mui/material'; 
+
 const drawerWidth = 240;
+
+interface INotesProps {
+  onSearch: (term: string) => void; 
+}
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -89,7 +137,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({onSearch}:INotesProps) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    onSearch(term);
+  };
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -102,9 +158,11 @@ export default function MiniDrawer() {
   };
   
   return (
+    
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
+      
         <Toolbar>
           <IconButton
             color="inherit"
@@ -122,6 +180,19 @@ export default function MiniDrawer() {
           <Typography variant="h6" noWrap component="div">
             JotSpot
           </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              inputProps={{ 'aria-label': 'search' }}
+              placeholder='Search'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              fullWidth
+            />
+          </Search>
+
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

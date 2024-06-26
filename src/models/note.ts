@@ -6,4 +6,5 @@ export interface NoteObject {
     pinned: boolean,
     createdAt: Date,
     updatedAt: Date,
+    color: string
 }
