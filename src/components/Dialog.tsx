@@ -43,11 +43,13 @@ export default function FormDialog({ open, handleClose,selectedNote,editNote }: 
       onClose={handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: handleSubmit
+        onSubmit: handleSubmit,
+      
       }}
+      sx={{}}
     >
-      <DialogTitle>Edit Note</DialogTitle>
-      <DialogContent>
+      {/* <DialogTitle>Edit Note</DialogTitle> */}
+      <DialogContent sx={{backgroundColor:selectedNote.color}}>
       <InputBase
           name="title"
           id='title'
@@ -69,8 +71,8 @@ export default function FormDialog({ open, handleClose,selectedNote,editNote }: 
          onChange={handleChange}
          />
       </DialogContent>
-      <DialogActions>
-        <InputBase id='color' name='color' type='color' defaultValue={selectedNote.color} onChange={handleChange} sx={{width:40}}></InputBase>
+      <DialogActions sx={{backgroundColor:selectedNote.color}}>
+        <InputBase id='color' name='color' type='color' defaultValue={selectedNote.color} onChange={handleChange} sx={{width:40, borderStyle:'rounded',borderWidth: 'thick' }}></InputBase>
         <Button onClick={handleClose}>Cancel</Button>
         <Button type="submit">Save</Button>
       </DialogActions>

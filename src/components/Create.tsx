@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Card, CardContent, InputBase, Button, Typography, CardActions, ClickAwayListener, CardHeader,IconButton } from '@mui/material';
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import { MoreVert } from '@mui/icons-material';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import { NoteObject } from '../models/note';
 import { v4 as uuid } from 'uuid';
 
@@ -22,9 +24,11 @@ interface CreateProps {
 export default function Create({ onAdd }: CreateProps) {
     const [note, setNote] = useState<NoteObject>(defaultObj);
     const [expanded, setExpanded] = useState(false);
+    const [pinned, setPinned] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
+        console.log(id)
         setNote((prevNote) => ({
             ...prevNote,
             [id]: value,
@@ -37,7 +41,7 @@ export default function Create({ onAdd }: CreateProps) {
             setNote(defaultObj);
             console.log('Note added');
         }
-        setExpanded(false); 
+        setExpanded(false);
     };
 
     const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -48,8 +52,8 @@ export default function Create({ onAdd }: CreateProps) {
           setNote(defaultObj);
           console.log('Note added');
       }
-        setExpanded(false); 
-        
+        setExpanded(false);
+        setPinned(false)
     };
 
     const handleClickAway = (e: MouseEvent | TouchEvent) => {
@@ -58,11 +62,25 @@ export default function Create({ onAdd }: CreateProps) {
           if (cardElement && !cardElement.contains(e.target as Node)) {
               e.preventDefault();
               console.log('Click DETECTED');
-              handleSubmit();
+              handleSubmit(); 
           }
       }
   };
 
+    const handlePinned = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      setPinned((prevPinned) => {
+          const newPinned = !prevPinned;
+          setNote((prevNote) => ({
+              ...prevNote,
+              pinned: newPinned,
+          }));
+          return newPinned;
+      });
+  };
+
+    const Icon = pinned?<PushPinIcon/> :<PushPinOutlinedIcon sx={{opacity:0.5}}/>
+    console.log('pinned '+pinned)
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <ClickAwayListener onClickAway={(e) => handleClickAway(e)}>
@@ -72,6 +90,7 @@ export default function Create({ onAdd }: CreateProps) {
                     onClick={() => { setExpanded(true); console.log('opened'); }}
                 >
                     <CardHeader
+                      sx={{ maxHeight:5 }}
                       title={<Typography variant='h5'>
                         <InputBase
                             name="title"
@@ -82,11 +101,11 @@ export default function Create({ onAdd }: CreateProps) {
                             fullWidth
                             placeholder={expanded? "Title":"Jot Down"}
                             inputProps={{ 'aria-label': 'title' }}
-                            sx={{maxHeight:5}}
+                            sx={{paddingTop:5}}
                         />
                     </Typography>}
-                      action={<IconButton aria-label="settings">
-                                <MoreVert />
+                      action={<IconButton aria-label="settings" sx={{paddingTop:1}} onClick={handlePinned}>
+                                {Icon}
                               </IconButton>
                               }
                     />
