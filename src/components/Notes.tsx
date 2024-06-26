@@ -28,11 +28,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
   };
   const highlightSearchTerm = (text: string, term: string) => {
     if (!term) return text;
-
-    // Create a regular expression with global and case-insensitive flags
     const regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
-
-    // Replace occurrences of the term with the same term wrapped in a span with a yellow background
     return text.replace(regex, match => `<span style="background-color: yellow">${match}</span>`);
   };
   console.log(note.color)

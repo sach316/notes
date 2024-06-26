@@ -37,7 +37,7 @@ export default function Create({ onAdd }: CreateProps) {
             setNote(defaultObj);
             console.log('Note added');
         }
-        setExpanded(false); // Close the card after submitting or without adding note
+        setExpanded(false); 
     };
 
     const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -48,7 +48,7 @@ export default function Create({ onAdd }: CreateProps) {
           setNote(defaultObj);
           console.log('Note added');
       }
-        setExpanded(false); // Collapse the card after submitting
+        setExpanded(false); 
         
     };
 
@@ -58,7 +58,7 @@ export default function Create({ onAdd }: CreateProps) {
           if (cardElement && !cardElement.contains(e.target as Node)) {
               e.preventDefault();
               console.log('Click DETECTED');
-              handleSubmit(); // Call handleSubmit when clicking away
+              handleSubmit();
           }
       }
   };

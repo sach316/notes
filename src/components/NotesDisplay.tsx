@@ -22,9 +22,9 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm }:
                 flexWrap="wrap"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                gap={2} // Adjust the gap between note cards as needed
+                gap={2} 
                 paddingLeft={4}
-                marginLeft={5} // Add more gap from the left side
+                marginLeft={5} 
             >
                 {notes.map((note) => (
                     <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
