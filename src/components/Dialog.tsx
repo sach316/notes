@@ -24,7 +24,7 @@ export default function FormDialog({ open, handleClose,selectedNote,editNote }: 
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      console.log(name, value)
+      // console.log(name, value)
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -33,7 +33,7 @@ export default function FormDialog({ open, handleClose,selectedNote,editNote }: 
   
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      console.log('submitting')
+      // console.log('submitting')
       editNote(selectedNote.id, formData);
       handleClose();
     };  

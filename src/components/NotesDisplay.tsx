@@ -8,15 +8,18 @@ interface INotesProps {
     deleteNote: (id: string) => void;
     editNote: (id: string, editedNote: NoteObject) => void;
     searchTerm: string;
+    drawerOpened: boolean
+    
 }
 
-export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm }: INotesProps) {
+export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,drawerOpened }: INotesProps) {
+    const margin= drawerOpened?30:7
+    // console.log(drawerOpened,margin+'drawer')
     return (
-        <Box>
-            <br></br>
-            <Typography variant="h5">Notes</Typography>
-            <br></br>
-            <br></br>
+        <Box sx={{marginTop:3}}>
+
+            <Typography variant="h5" sx={{marginBottom:3}}>Notes</Typography>
+
             <Box
                 display="flex"
                 flexWrap="wrap"
@@ -24,7 +27,7 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm }:
                 alignItems="flex-start"
                 gap={2} 
                 paddingLeft={4}
-                marginLeft={5} 
+                marginLeft={margin} 
             >
                 {notes.map((note) => (
                     <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />

@@ -25,6 +25,8 @@ const drawerWidth = 240;
 
 interface INotesProps {
   onSearch: (term: string) => void; 
+  drawerState: boolean
+  setDrawerOpened: (drawerOpened:boolean) =>void
 }
 
 const Search = styled('div')(({ theme }) => ({
@@ -136,7 +138,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer({onSearch}:INotesProps) {
+export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotesProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,11 +151,15 @@ export default function MiniDrawer({onSearch}:INotesProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setDrawerOpened(!drawerState)
+    // console.log('Open:'+openState)
+    setOpen(true)
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setDrawerOpened(!drawerState)
+    // console.log('Open:'+openState)
+    setOpen(false)
   };
   
   return (
@@ -239,7 +245,6 @@ export default function MiniDrawer({onSearch}:INotesProps) {
                   }}
                 >
                   {IconComponent}
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>

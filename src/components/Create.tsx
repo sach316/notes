@@ -28,7 +28,7 @@ export default function Create({ onAdd }: CreateProps) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        console.log(id)
+        // console.log(id)
         setNote((prevNote) => ({
             ...prevNote,
             [id]: value,
@@ -39,18 +39,18 @@ export default function Create({ onAdd }: CreateProps) {
         if (note.title.trim() !== '' || note.content.trim() !== '') {
             onAdd({ ...note, id: uuid() });
             setNote(defaultObj);
-            console.log('Note added');
+            // console.log('Note added');
         }
         setExpanded(false);
     };
 
     const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        console.log('Close');
+        // console.log('Close');
         if (note.title.trim() !== '' || note.content.trim() !== '') {
           onAdd({ ...note, id: uuid() });
           setNote(defaultObj);
-          console.log('Note added');
+        //   console.log('Note added');
       }
         setExpanded(false);
         setPinned(false)
@@ -61,7 +61,7 @@ export default function Create({ onAdd }: CreateProps) {
           const cardElement = document.getElementById('note-card');
           if (cardElement && !cardElement.contains(e.target as Node)) {
               e.preventDefault();
-              console.log('Click DETECTED');
+            //   console.log('Click DETECTED');
               handleSubmit(); 
           }
       }
@@ -80,9 +80,9 @@ export default function Create({ onAdd }: CreateProps) {
   };
 
     const Icon = pinned?<PushPinIcon/> :<PushPinOutlinedIcon sx={{opacity:0.5}}/>
-    console.log('pinned '+pinned)
+    // console.log('pinned '+pinned)
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:12 }}>
             <ClickAwayListener onClickAway={(e) => handleClickAway(e)}>
                 <Card
                     sx={{ minWidth: 600, maxWidth: 700,boxShadow:5 }}

@@ -11,7 +11,7 @@ function SearchBar({ onSearch }: SearchBarProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value;
     setSearchTerm(term);
-    onSearch(term); 
+    onSearch(searchTerm); 
   };
 
   return (

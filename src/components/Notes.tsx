@@ -31,7 +31,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
     const regex = new RegExp(term.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi');
     return text.replace(regex, match => `<span style="background-color: yellow">${match}</span>`);
   };
-  console.log(note.color)
+  // console.log(note.color)
 
   return (
     <>
