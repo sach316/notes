@@ -76,6 +76,7 @@ export default function SignUpPage(){
                 type="password"
                 id="password"
               />
+              <Link to={'/app'}>
               <Button
                 type="submit"
                 fullWidth
@@ -84,6 +85,7 @@ export default function SignUpPage(){
               >
                 Sign Up
               </Button>
+              </Link>
               <Grid container>
                 <Grid item>
                   {/* <Link to=> */}

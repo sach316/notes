@@ -1,4 +1,5 @@
 // api.ts
+import LoginProps from './models/credential';
 import { NoteObject } from './models/note';
 
 export const fetchNotes = async (): Promise<NoteObject[]> => {
@@ -24,6 +25,49 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
   };
   
   
+export const login = async(credentials:LoginProps):Promise<string> =>{
+  try {
+    console.log('json'+JSON.stringify(credentials))
+    const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/authenticate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
+      },
+      body: JSON.stringify(credentials),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    console.log('data',data)
+    return data;
+  } catch (error) {
+    console.error('Failed to login:', error);
+    throw error;
+  }}
+
+  // export const register = async(userDetails:LoginProps):Promise<string> =>{
+  //   try {
+  //     console.log('json'+JSON.stringify(credentials))
+  //     const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/register', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'ngrok-skip-browser-warning': 'true',
+  //       },
+  //       body: JSON.stringify(credentials),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`Error: ${response.status} ${response.statusText}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log('data',data)
+  //     return data;
+  //   } catch (error) {
+  //     console.error('Failed to login:', error);
+  //     throw error;
+  //   }}
 
 
 export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
@@ -106,3 +150,4 @@ export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
     throw error;
   }
 };
+

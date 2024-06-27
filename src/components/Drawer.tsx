@@ -196,7 +196,7 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Link to='/login'>
+          <Link to='/'>
           <IconButton
             color="inherit"
             onClick={handleLogin}
