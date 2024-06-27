@@ -3,6 +3,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import LoginProps from "../../models/credential";
 import { login } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,7 +14,7 @@ const defaultObj: LoginProps = {
 
 export default function LoginPage() {
     const [credentials, setCredentials] = useState<LoginProps>(defaultObj);
-
+    const navigate= useNavigate()
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCredentials({
             ...credentials,
@@ -24,6 +25,9 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const token:string= await login(credentials)
+        if (token) {
+            navigate('/app'); 
+        }
         console.log('Submitted:', credentials);
     };
 

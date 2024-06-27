@@ -21,7 +21,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone } from '@mui/icons-material';
 import { InputBase, alpha } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -30,6 +30,10 @@ interface INotesProps {
   drawerState: boolean;
   setDrawerOpened: (drawerOpened: boolean) => void;
 }
+
+const clearAuthToken = () => {
+  localStorage.removeItem('authToken');
+};
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -140,7 +144,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: INotesProps) {
   const [searchTerm, setSearchTerm] = useState('');
-
+  const navigate = useNavigate()
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value;
     setSearchTerm(term);
@@ -160,9 +164,10 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
     setOpen(false);
   };
 
-  const handleLogin = () => {
-    // Add login functionality here
-    console.log('Login clicked');
+  const handleLogout = () => {
+    clearAuthToken()
+    navigate('/')
+    
   };
 
   return (
@@ -199,7 +204,7 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
           <Link to='/'>
           <IconButton
             color="inherit"
-            onClick={handleLogin}
+            onClick={handleLogout}
             edge="end"
             sx={{color:'grey'}}
           >

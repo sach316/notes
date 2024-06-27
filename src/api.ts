@@ -1,11 +1,15 @@
 // api.ts
 import LoginProps from './models/credential';
 import { NoteObject } from './models/note';
+import UserDetails from './models/userdetails';
 
 export const fetchNotes = async (): Promise<NoteObject[]> => {
     try {
-      const response = await fetch('http://localhost:8080/api/notes',{
+      const authToken = localStorage.getItem('authToken');
+      console.log(typeof authToken,authToken)
+      const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes',{
         headers: {
+            'Authorization': `Bearer ${authToken}`,
             'ngrok-skip-browser-warning': 'true',}
       });
       if (!response.ok) {
@@ -40,6 +44,8 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
+    const token = data.token;
+    localStorage.setItem('authToken', token);
     console.log('data',data)
     return data;
   } catch (error) {
@@ -47,35 +53,39 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
     throw error;
   }}
 
-  // export const register = async(userDetails:LoginProps):Promise<string> =>{
-  //   try {
-  //     console.log('json'+JSON.stringify(credentials))
-  //     const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/register', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'ngrok-skip-browser-warning': 'true',
-  //       },
-  //       body: JSON.stringify(credentials),
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error(`Error: ${response.status} ${response.statusText}`);
-  //     }
-  //     const data = await response.json();
-  //     console.log('data',data)
-  //     return data;
-  //   } catch (error) {
-  //     console.error('Failed to login:', error);
-  //     throw error;
-  //   }}
+  export const register = async(userDetails:UserDetails):Promise<string> =>{
+    try {
+      console.log('json'+JSON.stringify(userDetails))
+      const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
+        body: JSON.stringify(userDetails),
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      const token = data.token;
+      localStorage.setItem('authToken', token);
+      console.log('data',data)
+      return data;
+    } catch (error) {
+      console.error('Failed to login:', error);
+      throw error;
+    }}
 
 
 export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
     console.log(JSON.stringify(newNote))
   try {
-    const response = await fetch('http://localhost:8080/api/notes', {
+    const authToken = localStorage.getItem('authToken');
+    const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes', {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${authToken}`,
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true',
       },
@@ -94,9 +104,11 @@ export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
 
 export const deleteNote = async (id: string): Promise<void> => {
   try {
-    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
+    const authToken = localStorage.getItem('authToken');
+    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
       method: 'DELETE',
       headers: {
+            'Authorization': `Bearer ${authToken}`,
             'ngrok-skip-browser-warning': 'true',}
       
     });
@@ -111,9 +123,11 @@ export const deleteNote = async (id: string): Promise<void> => {
 
 export const editNote = async (id: string, editedNote: NoteObject): Promise<NoteObject> => {
   try {
-    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
+    const authToken = localStorage.getItem('authToken');
+    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
       method: 'PUT',
       headers: {
+        'Authorization': `Bearer ${authToken}`,
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true',
       },
@@ -131,8 +145,10 @@ export const editNote = async (id: string, editedNote: NoteObject): Promise<Note
 
 export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
   try {
-    const response = await fetch(`http://localhost:8080/api/notes/search/${keyword}`,{
+    const authToken = localStorage.getItem('authToken');
+    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/search/${keyword}`,{
       headers: {
+          'Authorization': `Bearer ${authToken}`,
           'ngrok-skip-browser-warning': 'true',}
     });
     if (!response.ok) {
