@@ -3,7 +3,7 @@ import { NoteObject } from './models/note';
 
 export const fetchNotes = async (): Promise<NoteObject[]> => {
     try {
-      const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes',{
+      const response = await fetch('http://localhost:8080/api/notes',{
         headers: {
             'ngrok-skip-browser-warning': 'true',}
       });
@@ -29,7 +29,7 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
 export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
     console.log(JSON.stringify(newNote))
   try {
-    const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes', {
+    const response = await fetch('http://localhost:8080/api/notes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
 
 export const deleteNote = async (id: string): Promise<void> => {
   try {
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
       method: 'DELETE',
       headers: {
             'ngrok-skip-browser-warning': 'true',}
@@ -67,7 +67,7 @@ export const deleteNote = async (id: string): Promise<void> => {
 
 export const editNote = async (id: string, editedNote: NoteObject): Promise<NoteObject> => {
   try {
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export const editNote = async (id: string, editedNote: NoteObject): Promise<Note
 
 export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
   try {
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/search/${keyword}`,{
+    const response = await fetch(`http://localhost:8080/api/notes/search/${keyword}`,{
       headers: {
           'ngrok-skip-browser-warning': 'true',}
     });

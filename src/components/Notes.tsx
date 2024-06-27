@@ -62,7 +62,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
           </CardActions>
         </CardActionArea>
       </Card>
-      <FormDialog open={open} handleClose={handleClose} selectedNote={note} editNote={editNote} pinnedState={false} />
+      <FormDialog open={open} handleClose={handleClose} selectedNote={note} editNote={editNote} />
     </>
   );
 };
