@@ -19,14 +19,16 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
 import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone } from '@mui/icons-material';
-import { InputBase, alpha } from '@mui/material'; 
+import { InputBase, alpha } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 interface INotesProps {
-  onSearch: (term: string) => void; 
-  drawerState: boolean
-  setDrawerOpened: (drawerOpened:boolean) =>void
+  onSearch: (term: string) => void;
+  drawerState: boolean;
+  setDrawerOpened: (drawerOpened: boolean) => void;
 }
 
 const Search = styled('div')(({ theme }) => ({
@@ -59,7 +61,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -89,7 +90,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -138,7 +138,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotesProps) {
+export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: INotesProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,41 +151,39 @@ export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotes
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setDrawerOpened(!drawerState)
-    // console.log('Open:'+openState)
-    setOpen(true)
+    setDrawerOpened(!drawerState);
+    setOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setDrawerOpened(!drawerState)
-    // console.log('Open:'+openState)
-    setOpen(false)
+    setDrawerOpened(!drawerState);
+    setOpen(false);
   };
-  
+
+  const handleLogin = () => {
+    // Add login functionality here
+    console.log('Login clicked');
+  };
+
   return (
-    
-    <Box sx={{ display: 'flex',backgroundColor:'' }}>
+    <Box sx={{ display: 'flex', backgroundColor: '' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor:'white'}}>
-      
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'white' }}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{color:'grey',
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
+            sx={{ color: 'grey', marginRight: 5, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
-          <DescriptionTwoTone sx={{color:'green'}}/>
-          <Typography variant="h6" noWrap component="div" sx={{color:'GrayText'}}>
+          <DescriptionTwoTone sx={{ color: 'green' }} />
+          <Typography variant="h6" noWrap component="div" sx={{ color: 'GrayText' }}>
             JotSpot
           </Typography>
-          <Search sx={{color:'black',border:0.1}}>
+          <Search sx={{ color: 'black', border: 0.1 }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -197,7 +195,18 @@ export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotes
               fullWidth
             />
           </Search>
-
+          <Box sx={{ flexGrow: 1 }} />
+          <Link to='/login'>
+          <IconButton
+            color="inherit"
+            onClick={handleLogin}
+            edge="end"
+            sx={{color:'grey'}}
+          >
+            <AccountCircleIcon />
+            
+          </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -208,53 +217,51 @@ export default function MiniDrawer({onSearch,drawerState,setDrawerOpened}:INotes
         </DrawerHeader>
         <Divider />
         <List>
-
-          {['Notes', 'Reminders', 'Edit labels', 'Archive','Bin'].map((text, index) =>{
+          {['Notes', 'Reminders', 'Edit labels', 'Archive', 'Bin'].map((text, index) => {
             let IconComponent;
-            switch(index){
+            switch (index) {
               case 0:
-                IconComponent=<LightbulbOutlined/>
-                break
+                IconComponent = <LightbulbOutlined />;
+                break;
               case 1:
-                IconComponent=<NotificationsNoneOutlined/>
-                break 
+                IconComponent = <NotificationsNoneOutlined />;
+                break;
               case 2:
-                IconComponent=<EditOutlined/>
-                break
+                IconComponent = <EditOutlined />;
+                break;
               case 3:
-                IconComponent=<ArchiveOutlined/>
-                break
+                IconComponent = <ArchiveOutlined />;
+                break;
               case 4:
-                IconComponent=<DeleteOutlined/>
-                break
-              }
-            return(
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+                IconComponent = <DeleteOutlined />;
+                break;
+            }
+            return (
+              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
                   }}
                 >
-                  {IconComponent}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>)
-        })}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {IconComponent}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
         <Divider />
-        
       </Drawer>
-      
     </Box>
   );
 }

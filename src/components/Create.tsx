@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Card, CardContent, InputBase, Button, Typography, CardActions, ClickAwayListener, CardHeader,IconButton } from '@mui/material';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-import { MoreVert } from '@mui/icons-material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import { NoteObject } from '../models/note';
 import { v4 as uuid } from 'uuid';
@@ -90,7 +89,7 @@ export default function Create({ onAdd }: CreateProps) {
                             onChange={handleChange}
                             required
                             fullWidth
-                            placeholder={expanded? "Title":"Jot Down"}
+                            placeholder={expanded? "Title":"Jot down..."}
                             inputProps={{ 'aria-label': 'title' }}
                             sx={{paddingTop:5}}
                         />

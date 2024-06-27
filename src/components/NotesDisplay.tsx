@@ -31,16 +31,14 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,dr
                     marginLeft={margin} 
                     marginRight={1.5}
                 >
-                    {notes.map((note) => (
-                        note.pinned && (
-                            <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
-                        )
-                    ))}
-
+                    {notes.map((note) => (note.pinned&&(
+                        <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
+                    )))}
                 </Box>
+                <Typography variant="h5" sx={{marginBottom:3}}>Others</Typography>
                 </>
             )}
-            <Typography variant="h5" sx={{marginBottom:3}}>Others</Typography>
+            
 
             <Box
                     display="flex"
@@ -53,8 +51,8 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,dr
                     marginRight={1.5}
                 >
                 {notes.map((note) => (!note.pinned&&(
-                    <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
-                )))}
+                        <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
+                    )))}
             </Box>
         </Box>
     );
