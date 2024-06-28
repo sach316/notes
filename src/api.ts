@@ -1,9 +1,10 @@
-// api.ts
 import LoginProps from './models/credential';
 import { NoteObject } from './models/note';
 import UserDetails from './models/userdetails';
 
+
 export const fetchNotes = async (): Promise<NoteObject[]> => {
+  
     try {
       const authToken = localStorage.getItem('authToken');
       console.log(typeof authToken,authToken)
@@ -12,8 +13,9 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
             'Authorization': `Bearer ${authToken}`,
             'ngrok-skip-browser-warning': 'true',}
       });
+      console.log({response})
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        throw new Error(`Error: ${response.status} this one ${response.statusText}`);
       }
   
       const contentType = response.headers.get('content-type');
@@ -23,7 +25,8 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
   
       return await response.json();
     } catch (error) {
-      console.error('Failed to fetch notes:', error);
+
+      console.log('Failed to fetch notes:', error);
       throw error;
     }
   };
@@ -47,9 +50,9 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
     const token = data.token;
     localStorage.setItem('authToken', token);
     console.log('data',data)
-    return data;
+    return token;
   } catch (error) {
-    console.error('Failed to login:', error);
+    console.log('Failed to login:', error);
     throw error;
   }}
 
@@ -71,9 +74,9 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
       const token = data.token;
       localStorage.setItem('authToken', token);
       console.log('data',data)
-      return data;
+      return token;
     } catch (error) {
-      console.error('Failed to login:', error);
+      console.log('Failed to register:', error);
       throw error;
     }}
 
@@ -97,7 +100,7 @@ export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Failed to add note:', error);
+    console.log('Failed to add note:', error);
     throw error;
   }
 };
@@ -116,7 +119,7 @@ export const deleteNote = async (id: string): Promise<void> => {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
-    console.error('Failed to delete note:', error);
+    console.log('Failed to delete note:', error);
     throw error;
   }
 };
@@ -138,7 +141,7 @@ export const editNote = async (id: string, editedNote: NoteObject): Promise<Note
     }
     return await response.json();
   } catch (error) {
-    console.error('Failed to edit note:', error);
+    console.log('Failed to edit note:', error);
     throw error;
   }
 };
@@ -162,7 +165,7 @@ export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
 
     return await response.json();
   } catch (error) {
-    console.error('Failed to fetch notes:', error);
+    console.log('Failed to fetch notes:', error);
     throw error;
   }
 };

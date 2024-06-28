@@ -8,15 +8,18 @@ export default function Body() {
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} md={6}>
                     <Box>
+                    <p style={{ fontSize: 'clamp(2rem, 5vw, 4.375rem)', fontWeight: 600,color:'green' }}>
+                            JotSpot
+                        </p>
                         <p style={{ fontSize: 'clamp(2rem, 5vw, 4.375rem)', fontWeight: 600 }}>
                             A new way to jot your thoughts down
                         </p>
                         <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
                         <Link to={'/login'}>
-                            <Button variant="contained" sx={{height:40, width:100}}>Log In</Button>
+                            <Button variant="contained" sx={{height:40, width:100,backgroundColor:'green',color:'black'}}>Log In</Button>
                         </Link>
                         <Link to={'/signup'}>
-                            <Button variant="contained" sx={{height:40, width:150}}>Sign Up</Button>
+                            <Button variant="contained" sx={{height:40, width:150,backgroundColor:'black',color:'green'}}>Sign Up</Button>
                         </Link>
                         </Box>
                     </Box>

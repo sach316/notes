@@ -75,7 +75,7 @@ export default function Create({ onAdd }: CreateProps) {
         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:12 }}>
             <ClickAwayListener onClickAway={(handleSubmit)}>
                 <Card
-                    sx={{ minWidth: 600, maxWidth: 700,boxShadow:5 }}
+                    sx={{ minWidth: 600, maxWidth: 700,boxShadow:5 ,"--Card-radius": "40px"}}
                     id="note-card"
                     onClick={() => { setExpanded(true); console.log('opened'); }}
                 >
@@ -120,7 +120,8 @@ export default function Create({ onAdd }: CreateProps) {
                     </CardContent>
                     {expanded && (
                         <CardActions sx={{ justifyContent: 'flex-end' }}>
-                            <InputBase id='color' type='color' value={note.color} defaultValue='ffffff' onChange={handleChange} sx={{width:40}}></InputBase>
+                            
+                            <InputBase id='color' type='color' value={note.color} defaultValue='ffffff' onChange={handleChange} sx={{width:40}}style={{borderRadius:6000}}></InputBase>
                             <Button onClick={handleClose} variant="text" color="primary">Close</Button>
                         </CardActions>
                     )}

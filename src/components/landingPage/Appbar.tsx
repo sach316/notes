@@ -10,6 +10,14 @@ import { Link } from 'react-router-dom';
 
 
 export default function Appbar() {
+  const checkLoggedIn=()=>{
+    const loggedIn=localStorage.getItem('authToken')
+    if (loggedIn){
+      return true
+    }else{
+      return false
+    }
+  }
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -24,10 +32,19 @@ export default function Appbar() {
             JotSpot
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-
-              <Button key='Home'  variant='text' sx={{ color:'gray',borderColor:'grey', marginRight:2}}>
+          {checkLoggedIn() ? (
+            <Link to="/app">
+              <Button key="Home" variant="text" sx={{ color: 'gray', borderColor: 'grey', marginRight: 2 }}>
                 Home
               </Button>
+            </Link>
+          ) : (
+            <Link to="/">
+              <Button key="Home" variant="text" sx={{ color: 'gray', borderColor: 'grey', marginRight: 2 }}>
+                Home
+              </Button>
+            </Link>
+          )}
               <Link to={'/login'}>
               <Button key='Login' variant='outlined' sx={{ color:'gray',marginRight:2,outlineColor:'grey', ":hover":{color:'grey'}}}>
               Login

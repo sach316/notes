@@ -1,6 +1,6 @@
 import { DescriptionTwoTone } from "@mui/icons-material";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserDetails from "../../models/userdetails";
 import { useState } from "react";
 import { register } from "../../api";
@@ -110,9 +110,9 @@ export default function SignUpPage(){
                                     </Button>
                                 </Grid>
                                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Link to='/login'>
+
                                         Already have an account? Sign In
-                                    </Link>
+
                                 </Grid>
                             </Grid>
                         </Box>

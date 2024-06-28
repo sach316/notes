@@ -7,6 +7,7 @@ import LoginPage from './components/login/LoginPage';
 import reportWebVitals from './reportWebVitals';
 import LandingPage from './components/landingPage/Landing';
 import SignUpPage from './components/signUpPage/SignUpPage';
+import ErrorPage from './components/error/Error';
 
 
 
@@ -22,14 +23,15 @@ export default function Index() {
         <Route path="/app" element={<App/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/signup" element={<SignUpPage/>} />
+        <Route path='/*' element={<ErrorPage/>}/>
       </Routes>
     </BrowserRouter>
   );
 }
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Index />
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 reportWebVitals();
