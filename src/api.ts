@@ -49,7 +49,7 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
     const data = await response.json();
     const token = data.token;
     localStorage.setItem('authToken', token);
-    console.log('data',data)
+    console.log('data',token)
     return token;
   } catch (error) {
     console.log('Failed to login:', error);

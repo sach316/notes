@@ -1,9 +1,9 @@
-import { DescriptionTwoTone } from "@mui/icons-material";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { DescriptionTwoTone } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 import LoginProps from "../../models/credential";
 import { login } from "../../api";
-import { Link, useNavigate } from "react-router-dom";
 
 const defaultObj: LoginProps = {
     email: '',
@@ -12,6 +12,7 @@ const defaultObj: LoginProps = {
 
 export default function LoginPage() {
     const [credentials, setCredentials] = useState<LoginProps>(defaultObj);
+    const [errors, setErrors] = useState<Partial<LoginProps>>({}); 
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,24 +20,48 @@ export default function LoginPage() {
             ...credentials,
             [e.target.name]: e.target.value
         });
+
+        setErrors({
+            ...errors,
+            [e.target.name]: '',
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const token: string = await login(credentials);
-            if (token) {
-                navigate('/app'); 
+        let formIsValid = true;
+        const newErrors: Partial<LoginProps> = {};
+
+
+        if (!credentials.email) {
+            newErrors.email = 'Email is required';
+            formIsValid = false;
+        }
+        if (!credentials.password) {
+            newErrors.password = 'Password is required';
+            formIsValid = false;
+        }
+
+
+        setErrors(newErrors);
+        if (formIsValid) {
+            try {
+                const token: string = await login(credentials);
+                if (token) {
+                    navigate('/app');
+                }
+            } catch (error) {
+                navigate('/error');
+                console.log('Failed to login:', error);
             }
-        } catch (error) {
-            navigate('/error')
-            console.log('Failed to login:', error);
+        } else {
+            console.log('Form has errors. Please fill out all required fields.');
         }
     };
 
     return (
         <Grid container sx={{ height: '100vh' }}>
-            {/* Left half for text and background color */}
+
             <Grid item xs={12} sm={6} sx={{ backgroundColor: "black", color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <Box>
                     <DescriptionTwoTone sx={{ color: 'green', fontSize: 'clamp(2rem, 5vw, 4.375rem)' }} />
@@ -48,8 +73,6 @@ export default function LoginPage() {
                     </p>
                 </Box>
             </Grid>
-
-            {/* Right half for the login form */}
             <Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box
                     sx={{
@@ -76,6 +99,8 @@ export default function LoginPage() {
                             autoFocus
                             value={credentials.email}
                             onChange={handleChange}
+                            error={!!errors.email}
+                            helperText={errors.email}
                         />
                         <TextField
                             margin="normal"
@@ -88,6 +113,8 @@ export default function LoginPage() {
                             autoComplete="current-password"
                             value={credentials.password}
                             onChange={handleChange}
+                            error={!!errors.password}
+                            helperText={errors.password}
                         />
                         <Button
                             type="submit"
@@ -98,10 +125,10 @@ export default function LoginPage() {
                             Sign In
                         </Button>
                         <Grid container>
-                            <Grid item>
-                            <Link to='/signup'>
-                                {"Don't have an account? Sign Up"}
-                            </Link>
+                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Link to='/signup'>
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
                             </Grid>
                         </Grid>
                     </Box>

@@ -186,7 +186,7 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
           </IconButton>
           <DescriptionTwoTone sx={{ color: 'green' }} />
           <Typography variant="h6" noWrap component="div" sx={{ color: 'GrayText' }}>
-            JotSpot
+            JotSpot 
           </Typography>
           <Search sx={{ color: 'black', border: 0.1 }}>
             <SearchIconWrapper>
