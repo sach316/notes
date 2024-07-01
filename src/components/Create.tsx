@@ -4,6 +4,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import { NoteObject } from '../models/note';
 import { v4 as uuid } from 'uuid';
+import { ArchiveOutlined } from '@mui/icons-material';
 
 const defaultObj = {
     id: '0',
@@ -72,7 +73,7 @@ export default function Create({ onAdd }: CreateProps) {
     const Icon = pinned?<PushPinIcon/> :<PushPinOutlinedIcon sx={{opacity:0.5}}/>
     // console.log('pinned '+pinned)
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:12 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:12}}>
             <ClickAwayListener onClickAway={(handleSubmit)}>
                 <Card
                     sx={{ minWidth: 600, maxWidth: 700,boxShadow:5 ,"--Card-radius": "40px"}}
@@ -120,7 +121,7 @@ export default function Create({ onAdd }: CreateProps) {
                     </CardContent>
                     {expanded && (
                         <CardActions sx={{ justifyContent: 'flex-end' }}>
-                            
+                            <IconButton><ArchiveOutlined/></IconButton>
                             <InputBase id='color' type='color' value={note.color} defaultValue='ffffff' onChange={handleChange} sx={{width:40}}style={{borderRadius:6000}}></InputBase>
                             <Button onClick={handleClose} variant="text" color="primary">Close</Button>
                         </CardActions>

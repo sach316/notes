@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { fetchNotes, addNote, deleteNote, editNote, searchNotes } from './api';
 import { useDebounce } from './hooks';
 import { useNavigate } from 'react-router-dom';
+import Bin from './components/bin/Bin';
 
 function App() {
   const navigate=useNavigate()
@@ -14,6 +15,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm);
   const [drawerState, setDrawerState] = useState(false);
+  const [binPage,setBinPage]=useState(false);
   const [pinned, setPinned] = useState(false);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function App() {
 
   const checkPinnedStatus = (notes: NoteObject[]) => {
     for (const note of notes) {
-      if (note.pinned) {
+      if (note.pinned&&!note.deleted) {
         setPinned(true);
         return;
       }
@@ -100,13 +102,14 @@ function App() {
   }}
 
 
-  
+  //binned boolean
+  //binned && notesdisplay or bin
 
   return (
     <div className="App">
-      <MiniDrawer onSearch={setSearchTerm} drawerState={drawerState} setDrawerOpened={setDrawerState} />
-      <Create onAdd={handleAddNote} />
-      <NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} pinned={pinned} />
+      <MiniDrawer onSearch={setSearchTerm} drawerState={drawerState} setDrawerOpened={setDrawerState} binPage={binPage} setBinPage={setBinPage} />
+      {!binPage&&(<Create onAdd={handleAddNote} />)}
+      {binPage?(<Bin notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} />):(<NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} pinned={pinned} />)}
     </div>
   );
 }

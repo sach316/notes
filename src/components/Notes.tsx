@@ -8,6 +8,7 @@ import { Delete } from '@mui/icons-material';
 import { NoteObject } from '../models/note';
 import { CardActionArea } from '@mui/material';
 import FormDialog from './Dialog';
+import { useState } from 'react';
 
 
 interface INoteProps {
@@ -18,7 +19,8 @@ interface INoteProps {
 }
 
 const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
-  const [open, setOpen] = React.useState(false);
+  const[delNote,setDelNote] = useState<NoteObject>(note)
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,6 +29,16 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleDelete = () => {
+    setDelNote((prevNote) => ({
+      ...prevNote,
+      deleted: !prevNote.deleted,
+    }));
+    editNote(note.id, delNote);
+
+  };
+
   const Highlight = require('react-highlighter');
   return (
     <>
@@ -53,7 +65,7 @@ const Notes = ({ note, deleteNote, editNote,searchTerm }: INoteProps) => {
               size="large"
               onClick={(event) => {
                 event.stopPropagation();
-                deleteNote(note.id);
+                handleDelete();
               }}
               onMouseDown={(event) => event.stopPropagation()}
             >

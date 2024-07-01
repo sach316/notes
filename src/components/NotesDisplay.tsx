@@ -31,7 +31,7 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,dr
                     marginLeft={margin} 
                     marginRight={1.5}
                 >
-                    {notes.map((note) => (note.pinned&&(
+                    {notes.map((note) => ((!note.deleted&&note.pinned)&&(
                         <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
                     )))}
                 </Box>
@@ -50,7 +50,7 @@ export default function NotesDisplay({ notes, deleteNote, editNote,searchTerm,dr
                     marginLeft={margin} 
                     marginRight={1.5}
                 >
-                {notes.map((note) => (!note.pinned&&(
+                {notes.map((note) => ((!note.pinned&&!note.deleted)&&(
                         <Notes key={note.id} note={note} deleteNote={deleteNote} editNote={editNote} searchTerm={searchTerm} />
                     )))}
             </Box>

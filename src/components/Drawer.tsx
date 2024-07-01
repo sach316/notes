@@ -18,7 +18,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
-import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone } from '@mui/icons-material';
+import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone ,Delete, DeleteTwoTone } from '@mui/icons-material';
 import { InputBase, alpha } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useNavigate } from 'react-router-dom';
@@ -29,6 +29,8 @@ interface INotesProps {
   onSearch: (term: string) => void;
   drawerState: boolean;
   setDrawerOpened: (drawerOpened: boolean) => void;
+  binPage:boolean;
+  setBinPage:(bin: boolean) => void;
 }
 
 const clearAuthToken = () => {
@@ -142,7 +144,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: INotesProps) {
+export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened,binPage,setBinPage }: INotesProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate()
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +160,9 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
     setDrawerOpened(!drawerState);
     setOpen(true);
   };
-
+  const handleBin = () => {
+    setBinPage(!binPage);
+  };
   const handleDrawerClose = () => {
     setDrawerOpened(!drawerState);
     setOpen(false);
@@ -238,7 +242,7 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
                 IconComponent = <ArchiveOutlined />;
                 break;
               case 4:
-                IconComponent = <DeleteOutlined />;
+                IconComponent = !binPage?(<DeleteOutlined/>):(<Delete/>);
                 break;
             }
             return (
@@ -249,6 +253,7 @@ export default function MiniDrawer({ onSearch, drawerState, setDrawerOpened }: I
                     justifyContent: open ? 'initial' : 'center',
                     px: 2.5,
                   }}
+                  onClick={handleBin}
                 >
                   <ListItemIcon
                     sx={{
