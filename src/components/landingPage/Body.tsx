@@ -19,7 +19,7 @@ export default function Body() {
                             <Button variant="contained" sx={{height:40, width:100,backgroundColor:'green',color:'black'}}>Log In</Button>
                         </Link>
                         <Link to={'/signup'}>
-                            <Button variant="contained" sx={{height:40, width:150,backgroundColor:'black',color:'green'}}>Sign Up</Button>
+                            <Button variant="contained" sx={{height:40, width:150,backgroundColor:'black',color:'white'}}>Sign Up</Button>
                         </Link>
                         </Box>
                     </Box>

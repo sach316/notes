@@ -35,7 +35,7 @@ function App() {
     };
     loadNotes();
    
-  }, []);
+  }, [navigate]);
 
   const handleSearch = useCallback(async (term: string) => {
     try{
@@ -51,7 +51,7 @@ function App() {
     catch(error){
       navigate('/error')
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const search = async () => {

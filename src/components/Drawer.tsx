@@ -18,7 +18,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SearchIcon from '@mui/icons-material/Search';
-import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone ,Delete, DeleteTwoTone } from '@mui/icons-material';
+import { EditOutlined, ArchiveOutlined, DeleteOutlined, LightbulbOutlined, NotificationsNoneOutlined, DescriptionTwoTone ,Delete } from '@mui/icons-material';
 import { InputBase, alpha } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useNavigate } from 'react-router-dom';

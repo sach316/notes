@@ -8,7 +8,7 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
     try {
       const authToken = localStorage.getItem('authToken');
       console.log(typeof authToken,authToken)
-      const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes',{
+      const response = await fetch('http://localhost:8080/api/notes',{
         headers: {
             'Authorization': `Bearer ${authToken}`,
             'ngrok-skip-browser-warning': 'true',}
@@ -35,7 +35,7 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
 export const login = async(credentials:LoginProps):Promise<string> =>{
   try {
     console.log('json'+JSON.stringify(credentials))
-    const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/authenticate', {
+    const response = await fetch('http://localhost:8080/api/v1/auth/authenticate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
   export const register = async(userDetails:UserDetails):Promise<string> =>{
     try {
       console.log('json'+JSON.stringify(userDetails))
-      const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/v1/auth/register', {
+      const response = await fetch('http://localhost:8080/api/v1/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
     console.log(JSON.stringify(newNote))
   try {
     const authToken = localStorage.getItem('authToken');
-    const response = await fetch('https://5f50-14-194-85-214.ngrok-free.app/api/notes', {
+    const response = await fetch('http://localhost:8080/api/notes', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -108,7 +108,7 @@ export const addNote = async (newNote: NoteObject): Promise<NoteObject> => {
 export const deleteNote = async (id: string): Promise<void> => {
   try {
     const authToken = localStorage.getItem('authToken');
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
       method: 'DELETE',
       headers: {
             'Authorization': `Bearer ${authToken}`,
@@ -127,7 +127,7 @@ export const deleteNote = async (id: string): Promise<void> => {
 export const editNote = async (id: string, editedNote: NoteObject): Promise<NoteObject> => {
   try {
     const authToken = localStorage.getItem('authToken');
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/${id}`, {
+    const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -149,7 +149,7 @@ export const editNote = async (id: string, editedNote: NoteObject): Promise<Note
 export const searchNotes = async (keyword : string): Promise<NoteObject[]> => {
   try {
     const authToken = localStorage.getItem('authToken');
-    const response = await fetch(`https://5f50-14-194-85-214.ngrok-free.app/api/notes/search/${keyword}`,{
+    const response = await fetch(`http://localhost:8080/api/notes/search/${keyword}`,{
       headers: {
           'Authorization': `Bearer ${authToken}`,
           'ngrok-skip-browser-warning': 'true',}
