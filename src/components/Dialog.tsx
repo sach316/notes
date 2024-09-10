@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { NoteObject } from '../models/note';
 import { InputBase, Box, IconButton } from '@mui/material';
-import { PushPinOutlined, PushPin } from '@mui/icons-material';
+import { PushPinOutlined, PushPin, ColorLensOutlined } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 
 interface FormDialogProps {
@@ -81,14 +81,42 @@ export default function FormDialog({ open, handleClose, selectedNote, editNote }
         </DialogContent>
         <DialogActions sx={{ backgroundColor: selectedNote.color }}>
           <IconButton onClick={handlePinned}>{Icon}</IconButton>
-          <InputBase
-            id="color"
-            name="color"
-            type="color"
-            value={formData.color}
-            onChange={handleChange}
-            sx={{ width: 40, borderStyle: 'rounded', borderWidth: 'thick' }}
-          />
+          <Box
+                sx={{
+                  position: "relative",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <InputBase
+                  id="color"
+                  type="color"
+                  name='color'
+                  value={formData.color}
+                  defaultValue="#ffffff"
+                  onChange={handleChange}
+                  sx={{
+                    width: 0, 
+                    height: 0,
+                    opacity: 0, 
+                    position: "absolute", 
+                  }}
+                />
+                <ColorLensOutlined
+                  sx={{
+                    fontSize: 24,
+                    color: "grey", 
+                    cursor: "pointer",
+                    transition: "transform 0.3s ease",
+                    "&:hover": {
+                      transform: "scale(1.1)", 
+                    },
+                  }}
+                  onClick={() => {
+                    document.getElementById("color")?.click(); 
+                  }}
+                />
+              </Box>
           <Button onClick={handleClose}>Cancel</Button>
           <Button type="submit">Save</Button>
         </DialogActions>

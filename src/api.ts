@@ -7,13 +7,11 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
   
     try {
       const authToken = localStorage.getItem('authToken');
-      console.log(typeof authToken,authToken)
       const response = await fetch('http://localhost:8080/api/notes',{
         headers: {
             'Authorization': `Bearer ${authToken}`,
             'ngrok-skip-browser-warning': 'true',}
       });
-      console.log({response})
       if (!response.ok) {
         throw new Error(`Error: ${response.status} this one ${response.statusText}`);
       }
@@ -26,7 +24,6 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
       return await response.json();
     } catch (error) {
 
-      console.log('Failed to fetch notes:', error);
       throw error;
     }
   };
@@ -34,7 +31,6 @@ export const fetchNotes = async (): Promise<NoteObject[]> => {
   
 export const login = async(credentials:LoginProps):Promise<string> =>{
   try {
-    console.log('json'+JSON.stringify(credentials))
     const response = await fetch('http://localhost:8080/api/v1/auth/authenticate', {
       method: 'POST',
       headers: {
@@ -49,10 +45,8 @@ export const login = async(credentials:LoginProps):Promise<string> =>{
     const data = await response.json();
     const token = data.token;
     localStorage.setItem('authToken', token);
-    console.log('data',token)
     return token;
   } catch (error) {
-    console.log('Failed to login:', error);
     throw error;
   }}
 
