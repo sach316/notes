@@ -23,7 +23,6 @@ import {
   ArchiveOutlined,
   DeleteOutlined,
   LightbulbOutlined,
-  NotificationsNoneOutlined,
   DescriptionTwoTone,
   Delete,
 } from "@mui/icons-material";
@@ -36,6 +35,12 @@ interface INotesProps {
   onSearch: (term: string) => void;
   drawerState: boolean;
   setDrawerOpened: (drawerOpened: boolean) => void;
+  homePage: boolean;
+  setHomePage: (home: boolean) => void;
+  labelPage: boolean;
+  setLabelPage: (label: boolean) => void;
+  archivePage: boolean;
+  setArchivePage: (archive: boolean) => void;
   binPage: boolean;
   setBinPage: (bin: boolean) => void;
 }
@@ -150,11 +155,16 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-
 export default function MiniDrawer({
   onSearch,
   drawerState,
   setDrawerOpened,
+  homePage,
+  setHomePage,
+  labelPage,
+  setLabelPage,
+  archivePage,
+  setArchivePage,
   binPage,
   setBinPage,
 }: INotesProps) {
@@ -173,9 +183,14 @@ export default function MiniDrawer({
     setDrawerOpened(!drawerState);
     setOpen(true);
   };
-  const handleBin = () => {
-    setBinPage(!binPage);
+
+  const handlePageChange = (page: "home" | "label" | "archive" | "bin") => {
+    setHomePage(page === "home");
+    setLabelPage(page === "label");
+    setArchivePage(page === "archive");
+    setBinPage(page === "bin");
   };
+
   const handleDrawerClose = () => {
     setDrawerOpened(!drawerState);
     setOpen(false);
@@ -256,54 +271,68 @@ export default function MiniDrawer({
         </DrawerHeader>
         <Divider />
         <List>
-          {["Notes", "Reminders", "Edit labels", "Archive", "Bin"].map(
-            (text, index) => {
-              let IconComponent;
+          {["Notes", "Edit labels", "Archive", "Bin"].map((text, index) => {
+            let IconComponent;
+            switch (index) {
+              case 0:
+                IconComponent = <LightbulbOutlined />;
+                break;
+              case 1:
+                IconComponent = <EditOutlined />;
+                break;
+              case 2:
+                IconComponent = <ArchiveOutlined />;
+                break;
+              case 3:
+                IconComponent = !binPage ? <DeleteOutlined /> : <Delete />;
+                break;
+              default:
+                console.log("Unknown action for icon");
+            }
+
+            const handleClick = () => {
               switch (index) {
                 case 0:
-                  IconComponent = <LightbulbOutlined />;
+                  handlePageChange("home");
                   break;
                 case 1:
-                  IconComponent = <NotificationsNoneOutlined />;
+                  handlePageChange("label");
                   break;
                 case 2:
-                  IconComponent = <EditOutlined />;
+                  handlePageChange("archive");
                   break;
                 case 3:
-                  IconComponent = <ArchiveOutlined />;
+                  handlePageChange("bin");
                   break;
-                case 4:
-                  IconComponent = !binPage ? <DeleteOutlined /> : <Delete />;
-                  break;
+                default:
+                  console.log("Unknown action");
               }
-              return (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                  <ListItemButton
+            };
+
+            return (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                  onClick={handleClick}
+                >
+                  <ListItemIcon
                     sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
                     }}
-                    onClick={handleBin}
                   >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {IconComponent}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={text}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            }
-          )}
+                    {IconComponent}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
         <Divider />
       </Drawer>

@@ -8,6 +8,7 @@ import { fetchNotes, addNote, deleteNote, editNote, searchNotes } from "./api";
 import { useDebounce } from "./hooks";
 import { useNavigate } from "react-router-dom";
 import Bin from "./components/bin/Bin";
+import Archive from "./components/archive/Archive";
 
 function App() {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm);
   const [drawerState, setDrawerState] = useState(false);
+  const [homePage, setHomePage] = useState(true);
+  const [labelPage, setLabelPage] = useState(false);
+  const [archivePage, setArchivePage] = useState(false);
   const [binPage, setBinPage] = useState(false);
   const [pinned, setPinned] = useState(false);
 
@@ -112,11 +116,26 @@ function App() {
         onSearch={setSearchTerm}
         drawerState={drawerState}
         setDrawerOpened={setDrawerState}
+        homePage={homePage}
+        setHomePage={setHomePage}
+        labelPage={labelPage}
+        setLabelPage={setLabelPage}
+        archivePage={archivePage}
+        setArchivePage={setArchivePage}
         binPage={binPage}
         setBinPage={setBinPage}
       />
-      {!binPage && <Create onAdd={handleAddNote} />}
-      {binPage ? (
+      {homePage && <Create onAdd={handleAddNote} />}
+      {archivePage && (
+        <Archive
+          notes={notes}
+          archiveNote={handleDeleteNote}
+          editNote={handleEditNote}
+          searchTerm={searchTerm}
+          drawerOpened={drawerState}
+        />
+      )}
+      {binPage && (
         <Bin
           notes={notes}
           deleteNote={handleDeleteNote}
@@ -124,7 +143,19 @@ function App() {
           searchTerm={searchTerm}
           drawerOpened={drawerState}
         />
-      ) : (
+      )}
+      {homePage && (
+        <NotesDisplay
+          notes={notes}
+          deleteNote={handleDeleteNote}
+          editNote={handleEditNote}
+          restoreNote={restoreNote}
+          searchTerm={searchTerm}
+          drawerOpened={drawerState}
+          pinned={pinned}
+        />
+      )}
+      {labelPage && (
         <NotesDisplay
           notes={notes}
           deleteNote={handleDeleteNote}

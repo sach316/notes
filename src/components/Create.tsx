@@ -21,6 +21,7 @@ const defaultObj = {
   id: "0",
   title: "",
   content: "",
+  archived: false,
   deleted: false,
   pinned: false,
   createdAt: new Date(),

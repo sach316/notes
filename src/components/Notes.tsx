@@ -3,7 +3,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
+import { DeleteForever, RestoreFromTrash, Unarchive } from "@mui/icons-material";
 import { NoteObject } from "../models/note";
 import { CardActionArea } from "@mui/material";
 import FormDialog from "./Dialog";
@@ -34,6 +34,12 @@ const Notes = ({ note, deleteNote, editNote, searchTerm }: INoteProps) => {
     editNote(note.id, updatedNote);
   };
 
+  const handleArchive = () => {
+    const updatedNote = { ...delNote, archived: !delNote.archived };
+    setDelNote(updatedNote);
+    editNote(note.id, updatedNote);
+  };
+
   const Highlight = require("react-highlighter");
 
   return (
@@ -58,6 +64,21 @@ const Notes = ({ note, deleteNote, editNote, searchTerm }: INoteProps) => {
               {/* what about content beyond 100 words? */}
             </Typography>
           </CardContent>
+          {note.archived && (
+            <CardActions>
+            <IconButton
+              aria-label="delete"
+              size="large"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleArchive();
+              }}
+              onMouseDown={(event) => event.stopPropagation()}
+            >
+              <Unarchive />
+            </IconButton>
+          </CardActions>
+          )}
           {note.deleted && (
             <CardActions>
               <IconButton
@@ -90,6 +111,7 @@ const Notes = ({ note, deleteNote, editNote, searchTerm }: INoteProps) => {
         open={open}
         handleClose={handleClose}
         selectedNote={note}
+        archiveNote={handleArchive}
         deleteNote={handleRestore}
         editNote={editNote}
       />

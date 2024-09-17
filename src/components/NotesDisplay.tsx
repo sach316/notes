@@ -44,6 +44,7 @@ export default function NotesDisplay({
             {notes.map(
               (note) =>
                 !note.deleted &&
+                !note.archived &&
                 note.pinned && (
                   <Notes
                     key={note.id}
@@ -74,6 +75,7 @@ export default function NotesDisplay({
         {notes.map(
           (note) =>
             !note.pinned &&
+            !note.archived &&
             !note.deleted && (
               <Notes
                 key={note.id}

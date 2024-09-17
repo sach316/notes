@@ -9,12 +9,14 @@ import {
   PushPin,
   ColorLensOutlined,
   Delete,
+  Archive,
 } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 
 interface FormDialogProps {
   open: boolean;
   handleClose: () => void;
+  archiveNote: () => void;
   deleteNote: () => void;
   selectedNote: NoteObject;
   editNote: (id: string, editedNote: NoteObject) => void;
@@ -23,6 +25,7 @@ interface FormDialogProps {
 export default function FormDialog({
   open,
   handleClose,
+  archiveNote,
   deleteNote,
   selectedNote,
   editNote,
@@ -44,17 +47,21 @@ export default function FormDialog({
   const handlePinned = () => {
     const updatedNote = { ...formData, pinned: !formData.pinned };
     setFormData(updatedNote);
-    editNote(selectedNote.id, updatedNote); // Use the updated value immediately
+    editNote(selectedNote.id, updatedNote); 
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    editNote(selectedNote.id, formData); // Use the formData directly
+    editNote(selectedNote.id, formData); 
     handleClose();
   };
 
   const handleDelete = () => {
-    deleteNote(); // Perform delete action
+    deleteNote(); 
+    handleClose();
+  };
+  const handleArchive = () => {
+    archiveNote(); 
     handleClose();
   };
 
@@ -99,6 +106,11 @@ export default function FormDialog({
           {!selectedNote.deleted && (
             <IconButton aria-label="delete" size="large" onClick={handleDelete}>
               <Delete />
+            </IconButton>
+          )}
+          {!selectedNote.archived && (
+            <IconButton aria-label="archive" size="large" onClick={handleArchive}>
+              <Archive />
             </IconButton>
           )}
           <IconButton onClick={handlePinned}>{Icon}</IconButton>
