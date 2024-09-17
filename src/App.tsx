@@ -1,57 +1,56 @@
-import './App.css';
-import MiniDrawer from './components/Drawer';
-import Create from './components/Create';
-import NotesDisplay from './components/NotesDisplay';
-import { NoteObject } from './models/note';
-import { useState, useEffect, useCallback } from 'react';
-import { fetchNotes, addNote, deleteNote, editNote, searchNotes } from './api';
-import { useDebounce } from './hooks';
-import { useNavigate } from 'react-router-dom';
-import Bin from './components/bin/Bin';
+import "./App.css";
+import MiniDrawer from "./components/Drawer";
+import Create from "./components/Create";
+import NotesDisplay from "./components/NotesDisplay";
+import { NoteObject } from "./models/note";
+import { useState, useEffect, useCallback } from "react";
+import { fetchNotes, addNote, deleteNote, editNote, searchNotes } from "./api";
+import { useDebounce } from "./hooks";
+import { useNavigate } from "react-router-dom";
+import Bin from "./components/bin/Bin";
 
 function App() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [notes, setNotes] = useState<NoteObject[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm);
   const [drawerState, setDrawerState] = useState(false);
-  const [binPage,setBinPage]=useState(false);
+  const [binPage, setBinPage] = useState(false);
   const [pinned, setPinned] = useState(false);
 
   useEffect(() => {
-   
     const loadNotes = async () => {
-      try{
+      try {
         const fetchedNotes = await fetchNotes();
         console.log(fetchedNotes);
         setNotes(fetchedNotes);
         checkPinnedStatus(fetchedNotes);
+      } catch (error) {
+        console.log({ error });
+        navigate("/error");
       }
-     catch(error){
-      console.log({error});
-      navigate('/error')
-      
-    }
     };
     loadNotes();
-   
   }, [navigate]);
 
-  const handleSearch = useCallback(async (term: string) => {
-    try{
-    if (term) {
-      const searchedNotes = await searchNotes(term);
-      setNotes(searchedNotes);
-      checkPinnedStatus(searchedNotes);
-    } else {
-      const fetchedNotes = await fetchNotes();
-      setNotes(fetchedNotes);
-      checkPinnedStatus(fetchedNotes);
-    }}
-    catch(error){
-      navigate('/error')
-    }
-  }, [navigate]);
+  const handleSearch = useCallback(
+    async (term: string) => {
+      try {
+        if (term) {
+          const searchedNotes = await searchNotes(term);
+          setNotes(searchedNotes);
+          checkPinnedStatus(searchedNotes);
+        } else {
+          const fetchedNotes = await fetchNotes();
+          setNotes(fetchedNotes);
+          checkPinnedStatus(fetchedNotes);
+        }
+      } catch (error) {
+        navigate("/error");
+      }
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const search = async () => {
@@ -59,11 +58,10 @@ function App() {
     };
     search();
   }, [debouncedSearchTerm, handleSearch]);
-  
 
   const checkPinnedStatus = (notes: NoteObject[]) => {
     for (const note of notes) {
-      if (note.pinned&&!note.deleted) {
+      if (note.pinned && !note.deleted) {
         setPinned(true);
         return;
       }
@@ -80,36 +78,63 @@ function App() {
   };
 
   const handleEditNote = async (id: string, editedNote: NoteObject) => {
-    try{
-    const updatedNote = await editNote(id, editedNote);
-    setNotes((prevNotes) =>
-      prevNotes.map((note) => (note.id === id ? updatedNote : note))
-    );
-    checkPinnedStatus([updatedNote, ...notes.filter((note) => note.id !== id)]);
-  }
-  catch(error){
-    navigate('/error')
-  }}
+    try {
+      const updatedNote = await editNote(id, editedNote);
+      setNotes((prevNotes) =>
+        prevNotes.map((note) => (note.id === id ? updatedNote : note))
+      );
+      checkPinnedStatus([
+        updatedNote,
+        ...notes.filter((note) => note.id !== id),
+      ]);
+    } catch (error) {
+      navigate("/error");
+    }
+  };
 
   const handleDeleteNote = async (id: string) => {
-    try{
-    await deleteNote(id);
-    setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
-    checkPinnedStatus(notes.filter(note => note.id !== id));
+    try {
+      await deleteNote(id);
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+      checkPinnedStatus(notes.filter((note) => note.id !== id));
+    } catch (error) {
+      navigate("/error");
+    }
+  };
+
+  function restoreNote(id: string): void {
+    throw new Error("Function not implemented.");
   }
-  catch(error){
-    navigate('/error')
-  }}
-
-
-  //binned boolean
-  //binned && notesdisplay or bin
 
   return (
     <div className="App">
-      <MiniDrawer onSearch={setSearchTerm} drawerState={drawerState} setDrawerOpened={setDrawerState} binPage={binPage} setBinPage={setBinPage} />
-      {!binPage&&(<Create onAdd={handleAddNote} />)}
-      {binPage?(<Bin notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} />):(<NotesDisplay notes={notes} deleteNote={handleDeleteNote} editNote={handleEditNote} searchTerm={searchTerm} drawerOpened={drawerState} pinned={pinned} />)}
+      <MiniDrawer
+        onSearch={setSearchTerm}
+        drawerState={drawerState}
+        setDrawerOpened={setDrawerState}
+        binPage={binPage}
+        setBinPage={setBinPage}
+      />
+      {!binPage && <Create onAdd={handleAddNote} />}
+      {binPage ? (
+        <Bin
+          notes={notes}
+          deleteNote={handleDeleteNote}
+          editNote={handleEditNote}
+          searchTerm={searchTerm}
+          drawerOpened={drawerState}
+        />
+      ) : (
+        <NotesDisplay
+          notes={notes}
+          deleteNote={handleDeleteNote}
+          editNote={handleEditNote}
+          restoreNote={restoreNote}
+          searchTerm={searchTerm}
+          drawerOpened={drawerState}
+          pinned={pinned}
+        />
+      )}
     </div>
   );
 }

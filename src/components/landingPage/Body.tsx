@@ -16,7 +16,7 @@ export default function Body() {
                         </p>
                         <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
                         <Link to={'/login'}>
-                            <Button variant="contained" sx={{height:40, width:100,backgroundColor:'green',color:'black'}}>Log In</Button>
+                            <Button variant="contained" sx={{height:40, width:100,backgroundColor:'green',color:'white'}}>Log In</Button>
                         </Link>
                         <Link to={'/signup'}>
                             <Button variant="contained" sx={{height:40, width:150,backgroundColor:'black',color:'white'}}>Sign Up</Button>

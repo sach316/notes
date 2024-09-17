@@ -28,10 +28,9 @@ export default function Index() {
     </BrowserRouter>
   );
 }
+
 root.render(
-  // <React.StrictMode>
     <Index />
-  // </React.StrictMode>
 );
 
 reportWebVitals();
